@@ -153,13 +153,46 @@ def load_records():
     ensure_sample_data()
     df = pd.read_csv("database/violations.csv", on_bad_lines="skip")
 
-    for col in [
-        "Vehicle Count", "Current Risk Index", "Predicted Vehicle Count",
-        "15 Min Forecast", "30 Min Forecast", "60 Min Forecast",
-        "Predicted Risk Index", "Prediction Confidence",
-        "Police Officers Required", "Barricades Recommended",
+    required_cols = {
+        "Vehicle Number": "UNKNOWN",
+        "Location": "Silk Board Junction",
+        "Traffic Status": "Normal Traffic",
+        "Severity": "Low",
+        "Vehicle Count": 10,
+        "Current Risk Index": "40%",
+        "Predicted Vehicle Count": 15,
+        "15 Min Forecast": 15,
+        "30 Min Forecast": 20,
+        "60 Min Forecast": 25,
+        "Prediction Trend": "➡ Stable",
+        "Prediction Confidence": "85%",
+        "Predicted Risk Index": "50%",
+        "Enforcement Priority": "LOW",
+        "Police Officers Required": 1,
+        "Barricades Recommended": 0,
+        "Patrol Vehicles Required": 0,
+        "Timestamp": "2026-06-21 10:00:00"
+    }
+
+    for col, default in required_cols.items():
+        if col not in df.columns:
+            df[col] = default
+
+    numeric_cols = [
+        "Vehicle Count",
+        "Current Risk Index",
+        "Predicted Vehicle Count",
+        "15 Min Forecast",
+        "30 Min Forecast",
+        "60 Min Forecast",
+        "Predicted Risk Index",
+        "Prediction Confidence",
+        "Police Officers Required",
+        "Barricades Recommended",
         "Patrol Vehicles Required"
-    ]:
+    ]
+
+    for col in numeric_cols:
         df[col + " Numeric"] = safe_number(df[col])
 
     return df
