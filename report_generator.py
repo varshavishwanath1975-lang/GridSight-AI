@@ -1,7 +1,10 @@
+import os
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 
 def generate_pdf(report):
+    os.makedirs("outputs", exist_ok=True)
+
     pdf_file = "outputs/report.pdf"
 
     doc = SimpleDocTemplate(pdf_file)
@@ -15,7 +18,8 @@ def generate_pdf(report):
     content.append(Spacer(1, 10))
 
     for key, value in report.items():
-        content.append(Paragraph(f"<b>{key}</b>: {value}", styles["BodyText"]))
+        safe_value = str(value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        content.append(Paragraph(f"<b>{key}</b>: {safe_value}", styles["BodyText"]))
         content.append(Spacer(1, 8))
 
     content.append(Spacer(1, 20))
