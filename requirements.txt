@@ -1,0 +1,10 @@
+streamlit
+ultralytics
+easyocr
+opencv-python
+pillow
+pandas
+numpy
+reportlab
+python-dotenv
+streamlit-autorefresh
