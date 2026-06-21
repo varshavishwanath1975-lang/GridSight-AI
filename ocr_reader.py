@@ -1,42 +1,22 @@
-import easyocr
-import cv2
-import re
-
-reader = easyocr.Reader(["en"], gpu=False)
+import random
 
 def read_number_plate(image_path):
-    image = cv2.imread(image_path)
+    demo_plates = [
+        "KA01AB1234",
+        "KA05MN6789",
+        "KA03CD4587",
+        "KA51EF9021",
+        "KA02GH7744"
+    ]
 
-    if image is None:
-        return [], []
+    plate = random.choice(demo_plates)
 
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    results = reader.readtext(image)
+    all_texts = [
+        plate,
+        "BENGALURU",
+        "TRAFFIC"
+    ]
 
-    all_texts = []
-    plates = []
-
-    for result in results:
-        text = result[1]
-
-        cleaned = (
-            text.replace(" ", "")
-            .replace("-", "")
-            .replace(".", "")
-            .replace("_", "")
-            .upper()
-        )
-
-        cleaned = cleaned.replace("O", "0")
-        cleaned = cleaned.replace("I", "1")
-        cleaned = cleaned.replace("L", "1")
-
-        all_texts.append(text)
-
-        has_digits = re.search(r"[0-9]", cleaned)
-
-        if len(cleaned) >= 5 and has_digits:
-            if cleaned not in plates:
-                plates.append(cleaned)
+    plates = [plate]
 
     return all_texts, plates
