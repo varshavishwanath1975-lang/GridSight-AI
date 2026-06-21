@@ -1,10 +1,10 @@
 streamlit
 pandas
-numpy
+numpy==1.26.4
 pillow
-ultralytics
+opencv-python-headless==4.9.0.80
+ultralytics==8.2.103
 easyocr
-opencv-python-headless
 streamlit-autorefresh
 python-dotenv
 reportlab
